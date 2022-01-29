@@ -12,7 +12,6 @@ $date =$state['date'];
 $price =$state['price'];
 $id_sale =$state['id_sale'];
 $content =$state['content'];
-var_dump($content);
 
 ?>
 
