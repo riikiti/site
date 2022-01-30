@@ -117,6 +117,7 @@ if ($_SESSION['user']['login'] != "admin") {
                             echo "<th>full_name</th>";
                             echo "<th>login</th>";
                             echo "<th>email</th>";
+                            echo "<th>money</th>";
                             echo "<th>Action</th>";
                             echo "</tr>";
                             echo "</thead>";
@@ -127,6 +128,7 @@ if ($_SESSION['user']['login'] != "admin") {
                                 echo "<td>" . $row['full_name'] . "</td>";
                                 echo "<td>" . $row['login'] . "</td>";
                                 echo "<td>" . $row['email'] . "</td>";
+                                echo "<td>" . $row['money'] . "</td>";
                                 echo "<td>";
 
                                 echo "<a href='updateC.php?id=" . $row['id'] . "' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>";
