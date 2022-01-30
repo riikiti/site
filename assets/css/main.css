@@ -417,6 +417,8 @@ position: relative;
     width: 100%;
     display: flex;
     justify-content: center;
+    flex-direction: column-reverse;
+    align-items: center;
 }
 .reviews-tittle {
     font-size: 26px;
@@ -1027,6 +1029,38 @@ width: 100%;
 .state-char span{
     font-size: 26px;
     margin-right: 20px;
+}
+.y-money{
+    padding: 5px 35px 5px 20px;
+    border: 1px solid gold;
+    border-radius: 6px;
+    text-align: center;
+    margin-right: 30px;
+    position: relative;
+}
+.y-money>p{
+    width: max-content;
+    color: white;
+}
+.y-money:before{
+    position: absolute;
+    content: ' ';
+    background-image: url("/img/bitcoin-4294492_1280.png");
+    background-size:contain;
+    height: 20px;
+    width: 20px;
+    right: 10px;
+    bottom: 15px;
+}
+.form_buy{
+    margin-bottom: 30px;
+    width: 500px;
+    height: 100px;
+    border: 1px solid red;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 @media (max-width: 1600px) {
     .header-logo {

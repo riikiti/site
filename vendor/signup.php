@@ -8,6 +8,7 @@
     $email = $_POST['email'];
     $password = $_POST['password'];
     $password_confirm = $_POST['password_confirm'];
+    $money =10000;
 
     if ($password === $password_confirm) {
 
@@ -19,7 +20,7 @@
 
         $password = md5($password);
 
-        mysqli_query($connect, "INSERT INTO `users` (`id`, `full_name`, `login`, `email`, `password`, `avatar`) VALUES (NULL, '$full_name', '$login', '$email', '$password', '$path')");
+        mysqli_query($connect, "INSERT INTO `users` (`id`, `full_name`, `login`, `email`, `password`, `avatar`,`money`) VALUES (NULL, '$full_name', '$login', '$email', '$password', '$path','$money' )");
 
         $_SESSION['message'] = 'Регистрация прошла успешно!';
         header('Location: ../logistic.php');

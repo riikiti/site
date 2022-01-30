@@ -1,23 +1,24 @@
 <?php
 session_start();
-if (!$_SESSION['user']) {
-    header('Location: /');
-}
-$money=$_SESSION['user']['money'];
+$money = $_SESSION['user']['money'];
 ?>
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Ваш Профиль</title>
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <title>Создание записи</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../../assets/css/main.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <style type="text/css">
+        .wrapper {
+            width: 500px;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body>
-
-<!-- Профиль -->
 <header>
     <div class="header-wrapper">
 
@@ -74,61 +75,8 @@ $money=$_SESSION['user']['money'];
         </div>
     </div>
 </header>
-<div class="autorization">
-    <h1 class="r-title">Профиль</h1>
-    <form class="you-form">
-        <div class="you-photo">
-            <img src="<?= $_SESSION['user']['avatar'] ?>" width="200" alt="">
-        </div>
-        <div class="y-information">
-            <h2 style="margin: 10px 0;"><?= $_SESSION['user']['full_name'] ?></h2>
-            <a href="#"><?= $_SESSION['user']['email'] ?></a>
-        </div>
-        <div class="interactive">
-            <a href="vendor/logout.php" class="logout">Выход</a>
-            <a href="ChangeInfo.php" class="logout">Сменить данные</a>
-            <?php
-            if ($_SESSION['user']['login'] =='admin') {
-                echo '<a class="logout" href="/CRUD/uNews/adminN.php">admin</a>';
-            }
-            ?>
-        </div>
-        <?php
-        if ($_SESSION['message']) {
-            echo '<p class="msg"> ' . $_SESSION['message'] . ' </p>';
-        }
-        unset($_SESSION['message']);
-        ?>
-        <div class="your-tours">
-            <h3>Ваши туры:</h3>
-            <ul class="u-tours">
-                <?php
-                $connect = mysqli_connect('localhost', 'root', 'root', 'test');
-                //SELECT t1.id_client, t2.tour_name, t2.tour_date FROM `client-tour` AS t1, tours as t2 WHERE t1.id_client = 11 and t1.id_tour = t2.id_tour
-                //'" . $_SESSION['user']['login'] . "'
-                $sql ="SELECT t1.id_client, t2.tour_name, t2.tour_date FROM `client-tour` AS t1, tours as t2 WHERE t1.id_client = '" . $_SESSION['user']['id'] . "' and t1.id_tour = t2.id_tour " ;
+<h1>Средств не достаточно обратитесь к админу</h1>
 
-
-                if ($result = $connect->query($sql)) {
-                    while ($row = mysqli_fetch_array($result)) {
-                        $tour_name = $row['tour_name'];
-                        $tour_date = $row['tour_date'];
-                        echo '<li class="item"> Куда:' .   $tour_name . ' <br>Дата: ' . $tour_date . '</li>';
-
-                    }
-                }
-                $result->close();
-                unset($obj);
-                unset($sql);
-                unset($query);
-
-
-                ?>
-            </ul>
-        </div>
-
-</div>
-</form>
 <footer>
     <div class="header-logo footer-logo">
         <a href="/index.php">

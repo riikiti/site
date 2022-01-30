@@ -1,18 +1,20 @@
 <?php
+session_start();
+var_dump($_SESSION['user']['money']);
+$money = $_SESSION['user']['money'];
 $connect = mysqli_connect('localhost', 'root', 'root', 'test');
 $id_state = $_GET['id_state'];
-$res_price =$_GET['res_price'];
-$check_state=mysqli_query($connect, "SELECT * FROM `state` WHERE `id_state` = '$id_state'");
+$res_price = $_GET['res_price'];
+$check_state = mysqli_query($connect, "SELECT * FROM `state` WHERE `id_state` = '$id_state'");
 $state = mysqli_fetch_assoc($check_state);
-$state_name= $state['tittle'];
-$id_state =$state['id_state'];
-$preview =$state['preview'];
-$description =$state['description'];
-$date =$state['date'];
-$price =$state['price'];
-$id_sale =$state['id_sale'];
-$content =$state['content'];
-
+$state_name = $state['tittle'];
+$id_state = $state['id_state'];
+$preview = $state['preview'];
+$description = $state['description'];
+$date = $state['date'];
+$price = $state['price'];
+$id_sale = $state['id_sale'];
+$content = $state['content'];
 ?>
 
 <!DOCTYPE html>
@@ -25,7 +27,7 @@ $content =$state['content'];
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <style type="text/css">
-        .wrapper{
+        .wrapper {
             width: 500px;
             margin: 0 auto;
         }
@@ -52,6 +54,12 @@ $content =$state['content'];
                         <li><a href="/logistic.php">Личиный кабинет</a></li>
                     </ul>
                 </nav>
+                <?php if ($_SESSION['user']) {
+                    echo " <div class='y-money'>";
+                    echo " <p> $money</p>";
+                    echo " </div>";
+                }
+                ?>
                 <div class="header-oder-links">
 
                     <a>
@@ -83,78 +91,97 @@ $content =$state['content'];
     </div>
 </header>
 <main>
-    <h1 class="state"> <?=$state_name?></h1>
+    <h1 class="state"> <?= $state_name ?></h1>
     <div class="state-content">
         <div class="state-description-wrap">
             <h3 class="rew-t">Описание</h3>
             <div class="state-description-img">
-            <img src="/<?=$preview?>">
+                <img src="/<?= $preview ?>">
             </div>
             <ul class="state-char">
-                <li><span>Описание:</span><p><?=$description?></p></li>
-                <li><span>Дата публикации:</span><p><?=$date?></p></li>
-                <li><span>Цена:</span><p><?= $res_price?> руб.</p></li>
+                <li><span>Описание:</span>
+                    <p><?= $description ?></p></li>
+                <li><span>Дата публикации:</span>
+                    <p><?= $date ?></p></li>
+                <li><span>Цена:</span>
+                    <p><?= $res_price ?> руб.</p></li>
             </ul>
+            <div class='form_buy'>
+                <form action='buy.php' method='post' >
+                    <input hidden name='res_price' value='<?=$res_price?>'>
+                    <input hidden name='money' value='<?= $money ?>'>
+                    <input hidden name='id_state' value='<?= $id_state ?>'>
+                    <button class='third' type='submit'>Купить</button>
+                </form>
+            </div>
         </div>
-    <h3 class="rew-t">Комментарии</h3>
-<!--vivod otzivov -->
-    <div class="rev-w">
+        <h3 class="rew-t">Комментарии</h3>
+        <!--vivod otzivov -->
+        <div class="rev-w">
 
-    <div class="reviews-content">
-    <?php
-    // Include config file
-    $link=mysqli_connect('localhost', 'root', 'root', 'test');
+            <div class="reviews-content">
+                <?php
+                // Include config file
+                $link = mysqli_connect('localhost', 'root', 'root', 'test');
 
-    // Attempt select query execution
-    $sql = "SELECT * FROM reviews WHERE `id_state` = '$id_state'";
-    if ($result = mysqli_query($link, $sql)) {
-        if (mysqli_num_rows($result) > 0) {
+                // Attempt select query execution
+                $sql = "SELECT * FROM reviews WHERE `id_state` = '$id_state'";
+                if ($result = mysqli_query($link, $sql)) {
+                    if (mysqli_num_rows($result) > 0) {
 
-            while ($row = mysqli_fetch_array($result)) {
-                echo "<div class='reviews-wrap'>";
-                echo "<div class='rev-tittle'>";
-                echo "<h4 class='reviews-tittle'>" . $row['login'] . "</h4>";
-                echo "<p>" . $row['date'] . "</p>";
-                echo "</div>";
-                echo "<p class='reviews-comment'>" . $row['text'] . "</p>";
-                echo "</div>";
+                        while ($row = mysqli_fetch_array($result)) {
+                            echo "<div class='reviews-wrap'>";
+                            echo "<div class='rev-tittle'>";
+                            echo "<h4 class='reviews-tittle'>" . $row['login'] . "</h4>";
+                            echo "<p>" . $row['date'] . "</p>";
+                            echo "</div>";
+                            echo "<p class='reviews-comment'>" . $row['text'] . "</p>";
+                            echo "</div>";
 
-            }
-            // Free result set
-            mysqli_free_result($result);
-        } else {
-            echo "<p class='lead'><em>No records were found.</em></p>";
+                        }
+                        // Free result set
+                        mysqli_free_result($result);
+                    } else {
+                        echo "<p class='lead'><em>No records were found.</em></p>";
+                    }
+                } else {
+                    echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
+                }
+
+                // Close connection
+                // mysqli_close($link);
+              /*  echo "<form action='buy.php' method='post'>";
+                echo "<input name='res_price' value='$res_price'>";
+                echo "<input name='money' value='$money'>";
+                echo "<button class='third' type='submit'>Купить</button>";
+                echo "</form>";*/
+                ?>
+
+            </div>
+
+        </div>
+
+        <!-- otziv -->
+        <?php
+        error_reporting(0);
+        session_start();
+        $today = date("Y-m-d H:i:s");
+        $hidden = 'hidden';
+        if ($_SESSION['user']['login'] != "") {
+            echo "<h3 class='rev-bac'>Оставить отзыв</h3>";
+            echo "<form action='rev.php' class='reviews-rap' method='post'>";
+            echo " <div class='form-group'>";
+            echo "  <label>Отзыв</label>";
+            echo "  <input $hidden name='date' value='$today'>";
+            echo "  <input $hidden name='id_state' value='$id_state'>";
+            echo " <textarea  name='review' class='form-control' value='' placeholder='Напишите отзыв'>";
+            echo " </textarea>";
+            echo "</div>";
+
+            echo "<input type='submit' class='third' value='Submit'>";
+            echo " </form>";
         }
-    } else {
-        echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
-    }
-
-    // Close connection
-   // mysqli_close($link);
-    ?>
-    </div>
-    </div>
-    <!-- otziv -->
-    <?php
-    error_reporting(0);
-    session_start();
-    $today=date("Y-m-d H:i:s");
-    $hidden= 'hidden';
-    if ($_SESSION['user']['login'] != "") {
-        echo "<h3 class='rev-bac'>Оставить отзыв</h3>";
-        echo "<form action='rev.php' class='reviews-rap' method='post'>";
-        echo " <div class='form-group'>";
-        echo "  <label>Отзыв</label>";
-        echo "  <input $hidden name='date' value='$today'>";
-        echo "  <input $hidden name='id_state' value='$id_state'>";
-        echo " <textarea  name='review' class='form-control' value='' placeholder='Напишите отзыв'>";
-        echo " </textarea>";
-        echo "</div>";
-
-        echo "<input type='submit' class='third' value='Submit'>";
-        echo " </form>";
-    }
-    ?>
+        ?>
     </div>
 </main>
 

@@ -1,5 +1,7 @@
 <?php
+
 session_start();
+$money=$_SESSION['user']['money'];
 ?>
 
 <!doctype html>
@@ -41,6 +43,12 @@ session_start();
                         <li><a href="/logistic.php">Личиный кабинет</a></li>
                     </ul>
                 </nav>
+                <?php if ($_SESSION['user']) {
+                    echo " <div class='y-money'>";
+                    echo " <p> $money</p>";
+                    echo " </div>";
+                }
+                ?>
                 <div class="header-oder-links">
 
                     <a>
@@ -118,7 +126,7 @@ session_start();
                                     echo " <p>$price руб.</p>";
                                     echo "<button class='third'>Купить</button>";
                                     echo " <input hidden name='id_state' value='$id_state'>";
-
+                                    echo " <input hidden name='res_price' value='$price'>";
                                     echo " </div>";
                                     echo "</form>";
                                 }

@@ -1,4 +1,6 @@
 <?php
+session_start();
+$money=$_SESSION['user']['money'];
 ?>
 
 <!doctype html>
@@ -40,6 +42,15 @@
                         <li><a href="/logistic.php">Личиный кабинет</a></li>
                     </ul>
                 </nav>
+                <?php if ($_SESSION['user']) {
+                echo " <div class='y-money'>";
+                echo " <p> $money</p>";
+                 echo " </div>";
+                }
+                ?>
+
+
+
                 <div class="header-oder-links">
 
                     <a>
