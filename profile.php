@@ -100,20 +100,24 @@ $money=$_SESSION['user']['money'];
         unset($_SESSION['message']);
         ?>
         <div class="your-tours">
-            <h3>Ваши туры:</h3>
+            <h3>Ваши покупки:</h3>
             <ul class="u-tours">
                 <?php
                 $connect = mysqli_connect('localhost', 'root', 'root', 'test');
                 //SELECT t1.id_client, t2.tour_name, t2.tour_date FROM `client-tour` AS t1, tours as t2 WHERE t1.id_client = 11 and t1.id_tour = t2.id_tour
                 //'" . $_SESSION['user']['login'] . "'
-                $sql ="SELECT t1.id_client, t2.tour_name, t2.tour_date FROM `client-tour` AS t1, tours as t2 WHERE t1.id_client = '" . $_SESSION['user']['id'] . "' and t1.id_tour = t2.id_tour " ;
-
-
+                $sql ="SELECT t1.link,t1.date_finish, t2.tittle, t2.id_state,t3.id FROM `client-state` AS t1, `state` as t2,`users` as t3 WHERE t1.id_client = '" . $_SESSION['user']['id'] . "' and t1.id_state = t2.id_state and t3.id =t1.id_client" ;
+                $today=date("Y-m-d H:i:s");
                 if ($result = $connect->query($sql)) {
                     while ($row = mysqli_fetch_array($result)) {
-                        $tour_name = $row['tour_name'];
-                        $tour_date = $row['tour_date'];
-                        echo '<li class="item"> Куда:' .   $tour_name . ' <br>Дата: ' . $tour_date . '</li>';
+                        $link = $row['link'];
+                        $tittle = $row['tittle'];
+                        $date_finish=$row['date_finish'];
+                        echo '<li class="item"> статья: ' .   $tittle . ' <br>Активная до: ' .  $date_finish. ' </li>';
+                        if($date_finish>$today){
+                            echo '<a href="' . $link . '">Скачать</a>';
+                        }
+
 
                     }
                 }

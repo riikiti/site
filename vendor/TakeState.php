@@ -1,6 +1,5 @@
 <?php
 session_start();
-var_dump($_SESSION['user']['money']);
 $money = $_SESSION['user']['money'];
 $connect = mysqli_connect('localhost', 'root', 'root', 'test');
 $id_state = $_GET['id_state'];
@@ -111,6 +110,7 @@ $content = $state['content'];
                     <input hidden name='res_price' value='<?=$res_price?>'>
                     <input hidden name='money' value='<?= $money ?>'>
                     <input hidden name='id_state' value='<?= $id_state ?>'>
+                    <input hidden name='content' value='<?= $content ?>'>
                     <button class='third' type='submit'>Купить</button>
                 </form>
             </div>

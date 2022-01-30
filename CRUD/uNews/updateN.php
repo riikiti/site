@@ -129,7 +129,7 @@ if(isset($_GET["id"]) && !empty($_GET["id"])){
     <meta charset="UTF-8">
     <title>Изменение записи</title>
     <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
     <style type="text/css">
         .wrapper{
