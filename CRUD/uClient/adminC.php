@@ -103,10 +103,10 @@ if ($_SESSION['user']['login'] != "admin") {
                         <!--<a href="create.php" class="btn btn-success pull-right">Добавить новую Запись</a> -->
                     </div>
                     <?php
-                    // Include config file
+                    // подключение к бд
                     require_once "../config.php";
 
-                    // Attempt select query execution
+                    // выводи всех данные из таблцы юзеров система налогична выводу карточек в индексе
                     $sql = "SELECT * FROM users";
                     if ($result = mysqli_query($link, $sql)) {
                         if (mysqli_num_rows($result) > 0) {
@@ -123,6 +123,7 @@ if ($_SESSION['user']['login'] != "admin") {
                             echo "</thead>";
                             echo "<tbody>";
                             while ($row = mysqli_fetch_array($result)) {
+                                //происходит выод таблтцы кста бутсрап красивая таблица
                                 echo "<tr>";
                                 echo "<td>" . $row['id'] . "</td>";
                                 echo "<td>" . $row['full_name'] . "</td>";
@@ -130,7 +131,7 @@ if ($_SESSION['user']['login'] != "admin") {
                                 echo "<td>" . $row['email'] . "</td>";
                                 echo "<td>" . $row['money'] . "</td>";
                                 echo "<td>";
-
+// ссылки на изменение и удалениес передачей гетом данных
                                 echo "<a href='updateC.php?id=" . $row['id'] . "' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>";
                                 echo "<a href='deleteC.php?id=" . $row['id'] . "' title='Delete Record' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>";
                                 echo "</td>";

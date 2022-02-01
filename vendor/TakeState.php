@@ -1,11 +1,16 @@
 <?php
+//запускаем сессию
 session_start();
+//выносим все нужные данные в переменные для удобства обращения
 $money = $_SESSION['user']['money'];
 $connect = mysqli_connect('localhost', 'root', 'root', 'test');
+// полученные данные гет заносим в переменную их получили из State.php
 $id_state = $_GET['id_state'];
 $res_price = $_GET['res_price'];
+// получаем данные о статье с нужными нам параметрами
 $check_state = mysqli_query($connect, "SELECT * FROM `state` WHERE `id_state` = '$id_state'");
 $state = mysqli_fetch_assoc($check_state);
+//полученные даты с нужными характеристиками заносим в переменные для удобства
 $state_name = $state['tittle'];
 $id_state = $state['id_state'];
 $preview = $state['preview'];
@@ -20,7 +25,7 @@ $content = $state['content'];
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Создание записи</title>
+    <title><?= $state_name ?></title>
     <link rel="stylesheet" href="../css/bootstrap.css">
     <link rel="stylesheet" href="../../assets/css/main.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -57,6 +62,7 @@ $content = $state['content'];
                     echo " <div class='y-money'>";
                     echo " <p> $money</p>";
                     echo " </div>";
+                    //деньги
                 }
                 ?>
                 <div class="header-oder-links">
@@ -107,6 +113,7 @@ $content = $state['content'];
             </ul>
             <div class='form_buy'>
                 <form action='buy.php' method='post' >
+                    <!-- передаем в форме методом пост нужные параметры при нажатие на кнопку купить (vendor/buy.php)-->
                     <input hidden name='res_price' value='<?=$res_price?>'>
                     <input hidden name='money' value='<?= $money ?>'>
                     <input hidden name='id_state' value='<?= $id_state ?>'>
@@ -121,7 +128,7 @@ $content = $state['content'];
 
             <div class="reviews-content">
                 <?php
-                // Include config file
+                //вывод отзывов аналогичен выводу в индексе
                 $link = mysqli_connect('localhost', 'root', 'root', 'test');
 
                 // Attempt select query execution
@@ -148,13 +155,7 @@ $content = $state['content'];
                     echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
                 }
 
-                // Close connection
-                // mysqli_close($link);
-              /*  echo "<form action='buy.php' method='post'>";
-                echo "<input name='res_price' value='$res_price'>";
-                echo "<input name='money' value='$money'>";
-                echo "<button class='third' type='submit'>Купить</button>";
-                echo "</form>";*/
+
                 ?>
 
             </div>
@@ -163,8 +164,7 @@ $content = $state['content'];
 
         <!-- otziv -->
         <?php
-        error_reporting(0);
-        session_start();
+        // аналогичная возможность оставить отзыв только автризированных пользователей они сюда не зайдут но на всякий случай
         $today = date("Y-m-d H:i:s");
         $hidden = 'hidden';
         if ($_SESSION['user']['login'] != "") {

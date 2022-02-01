@@ -73,7 +73,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="page-header">
-                    <h2>Создание новости</h2>
+                    <h2>Создание скидки</h2>
                 </div>
                 <form action="/CRUD/uSale/CSale.php" method="post" enctype="multipart/form-data">
 

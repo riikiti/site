@@ -106,10 +106,10 @@ if ($_SESSION['user']['login'] != "admin") {
                         <a href="createSale.php" class="btn btn-success pull-right">Добавить новую Запись</a>
                     </div>
                     <?php
-                    // Include config file
+                    // аналогично клиентам
                     require_once "../config.php";
 
-                    // Attempt select query execution
+
                     $sql = "SELECT * FROM `sale`";
                     if ($result = mysqli_query($link, $sql)) {
                         if (mysqli_num_rows($result) > 0) {
@@ -131,7 +131,6 @@ if ($_SESSION['user']['login'] != "admin") {
                                 echo "<td>" . $row['date_start'] . "</td>";
                                 echo "<td>" . $row['date_finish'] . "</td>";
                                 echo "<td>";
-                                echo "<a href='updateSale.php?id=" . $row['id_sale'] . "' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>";
                                 echo "<a href='deleteSale.php?id=" . $row['id_sale'] . "' title='Delete Record' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>";
                                 echo "</td>";
                                 echo "</tr>";

@@ -73,7 +73,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="page-header">
-                    <h2>Создание новости</h2>
+                    <h2>Создание статьи</h2>
                 </div>
                 <form action="/CRUD/uState/CState.php" method="post" enctype="multipart/form-data">
                     <label>tittle</label>
@@ -84,7 +84,7 @@
                     <input type="file" name="preview">
                     <label>content</label>
                     <input type="file" name="content">
-                    <label>sale</label>
+                   <label>sale</label>
                     <input type="text" name="sale" placeholder="Введите sale">
                     <label>price</label>
                     <input type="text" name="price" placeholder="Введите price">

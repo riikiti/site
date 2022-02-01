@@ -58,7 +58,7 @@ if(isset($_GET["id"]) && !empty($_GET["id"])){
             // Attempt to execute the prepared statement
             if(mysqli_stmt_execute($stmt)){
                 // Records updated successfully. Redirect to landing page
-                header("location:/CRUD/adminC.php");
+                header("location:/CRUD/uNews/adminN.php");
                 exit();
             } else{
                 echo "Something went wrong. Please try again later.";
@@ -101,7 +101,7 @@ if(isset($_GET["id"]) && !empty($_GET["id"])){
                     $salary = $row["full_name"];
                 } else{
                     // URL doesn't contain valid id. Redirect to error page
-                    header("location: error.php");
+                    header("location:/CRUD/uNews/adminN.php");
                     exit();
                 }
 
@@ -117,7 +117,7 @@ if(isset($_GET["id"]) && !empty($_GET["id"])){
         mysqli_close($link);
     }  else{
         // URL doesn't contain id parameter. Redirect to error page
-        header("location: error.php");
+        header("location:/CRUD/uNews/adminN.php");
         exit();
     }
 }

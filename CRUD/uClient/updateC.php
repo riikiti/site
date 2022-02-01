@@ -3,8 +3,8 @@
 require_once "../config.php";
 
 // Define variables and initialize with empty values
-$name = $address = $salary = "";
-$name_err = $address_err = $salary_err = "";
+$name = $full_name = $email = "";
+$name_err = $full_name_err = $email_err = "";
 
 // Processing form data when form is submitted
 if(isset($_GET["id"]) && !empty($_GET["id"])){
@@ -25,22 +25,22 @@ if(isset($_GET["id"]) && !empty($_GET["id"])){
     // Validate address address
     $input_address = trim($_POST["address"]);
     if(empty($input_address)){
-        $address_err = "Please enter an address.";
+        $full_name_err = "Please enter an address.";
     } else{
-        $address = $input_address;
+        $full_name = $input_address;
     }
 
     // Validate salary
     $input_salary = trim($_POST["salary"]);
     if(empty($input_salary)){
-        $salary_err = "Please enter the salary amount.";
+        $email_err = "Please enter the salary amount.";
 
     } else{
-        $salary = $input_salary;
+        $email = $input_salary;
     }
     $money = trim($_POST["money"]);
     // Check input errors before inserting in database
-if( mysqli_query($link, "UPDATE `users` SET `login`='$name', `full_name`='$address', `email`='$salary',`money`='$money' WHERE `id`='$id'")){
+if( mysqli_query($link, "UPDATE `users` SET `login`='$name', `full_name`='$full_name', `email`='$email',`money`='$money' WHERE `id`='$id'")){
     header('Location: /CRUD/UState/adminState.php');
 }
 
@@ -130,14 +130,14 @@ if( mysqli_query($link, "UPDATE `users` SET `login`='$name', `full_name`='$addre
                         <input type="text" name="name" class="form-control" value="<?php echo $name; ?>">
 
                     </div>
-                    <div class="form-group <?php echo (!empty($address_err)) ? 'has-error' : ''; ?>">
+                    <div class="form-group <?php echo (!empty($full_name_err)) ? 'has-error' : ''; ?>">
                         <label>full_name</label>
-                        <textarea name="address" class="form-control"><?php echo $address; ?></textarea>
+                        <textarea name="address" class="form-control"><?php echo $full_name; ?></textarea>
 
                     </div>
-                    <div class="form-group <?php echo (!empty($salary_err)) ? 'has-error' : ''; ?>">
+                    <div class="form-group <?php echo (!empty($email_err)) ? 'has-error' : ''; ?>">
                         <label>email</label>
-                        <input  name="salary" class="form-control" value="<?php echo $salary; ?>">
+                        <input  name="salary" class="form-control" value="<?php echo $email; ?>">
 
                     </div>
                     <div class="form-group">

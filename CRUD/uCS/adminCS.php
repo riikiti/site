@@ -101,13 +101,12 @@ if ($_SESSION['user']['login'] != "admin") {
                 <div class="col-md-12">
                     <div class="page-header clearfix">
                         <h2 class="pull-left">АДМИНКА - ПОКУПОК</h2>
-                        <a href="createCS.php" class="btn btn-success pull-right">Добавить новую Запись</a>
+
                     </div>
                     <?php
-                    // Include config file
+                    // аналогично клиентам
                     require_once "../config.php";
 
-                    // Attempt select query execution
                     $sql = "SELECT * FROM `client-state`";
                     if ($result = mysqli_query($link, $sql)) {
                         if (mysqli_num_rows($result) > 0) {
@@ -136,7 +135,7 @@ if ($_SESSION['user']['login'] != "admin") {
                                 echo "<td>" . $row['status'] . "</td>";
                                 echo "<td>";
 
-                                echo "<a href='updateCS.php?id=" . $row['id_cs'] . "' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>";
+
                                 echo "<a href='deleteCS.php?id=" . $row['id_cs'] . "' title='Delete Record' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>";
                                 echo "</td>";
                                 echo "</tr>";

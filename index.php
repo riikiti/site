@@ -1,5 +1,7 @@
 <?php
+//начало сессии
 session_start();
+//заносим в переменную деньги пользователя
 $money=$_SESSION['user']['money'];
 ?>
 
@@ -7,7 +9,7 @@ $money=$_SESSION['user']['money'];
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Avto</title>
+    <title>Главная</title>
     <link rel="stylesheet" href="/assets/css/main.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
@@ -42,11 +44,13 @@ $money=$_SESSION['user']['money'];
                         <li><a href="/logistic.php">Личиный кабинет</a></li>
                     </ul>
                 </nav>
+
                 <?php if ($_SESSION['user']) {
                 echo " <div class='y-money'>";
                 echo " <p> $money</p>";
                  echo " </div>";
                 }
+                // выводим текущий баланс пользователя
                 ?>
 
 
@@ -86,15 +90,18 @@ $money=$_SESSION['user']['money'];
     <div class="swiper">
         <div class="swiper-wrapper">
             <?php
-            // Include config file
+
+            // выводим все нужные данные для отображения статей в слайдере из базы данных
+            // подключаем ссылку на коннект к бд, порой делал так что она отдельно а не так как тут
             require_once "config2.php";
 
-            // Attempt select query execution
+           //запрос к таблице статей
             $sql = "SELECT * FROM `state`";
-
+// если получаем результат то
             if ($result = mysqli_query($link, $sql)) {
+                //если результат пришел не путой то
                 if (mysqli_num_rows($result) > 0) {
-
+// пока есть данные полученные из таюлицы прокручиваем и заносим в переменные
                     while ($row = mysqli_fetch_array($result)) {
                         $image = $row['preview'];
                         $tittle = $row['tittle'];
@@ -104,9 +111,10 @@ $money=$_SESSION['user']['money'];
                         $id_sale = $row['id_sale'];
                         $content =$row['content'];
                         $price =$row['price'];
+                        // берем нужжные свойства из сессионной информации
                         $user = $_SESSION['user']['id'];
                         $user_name =$_SESSION['user']['login'];
-
+// начинаем вывод карточек слайдера а так же передаем полученные данные в нужные места карточек
                         echo " <div class='swiper-slide '>";
                         echo "<div class='state-wrap'>";
                         echo " <div class='state-img'>";
@@ -129,56 +137,31 @@ $money=$_SESSION['user']['money'];
                         echo "</div>";
 
                     }
-                    // Free result set
+                    // очищаем резуьт
                     mysqli_free_result($result);
                 } else {
+                    //если данных в таблице нету пищем что записей не найдено
                     echo "<p class='lead'><em>No records were found.</em></p>";
                 }
-            } else {
-                echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
-            }
+            } else
 
             // Close connection
 
             ?>
-            <!-- Slides
-            <a href="Tours.php" class="swiper-slide"><img src="img/Anapa_2018_d_850.jpg">
-            </a>
-            <a href="Tours.php" class="swiper-slide right"><img
-                        src="img/Sochi.jpg">
-            </a>
-            <a href="Tours.php" class="swiper-slide "><img src="img/Gelendzhik-1.jpg"></a>
-            -->
+
         </div>
 
 
     </div>
-   <!-- <section class="in-price">
-        <h2>В стоимость услуги входит:</h2>
-        <div class="in-price-wrap">
-            <ul class="in-p-good">
-<li>Вам не нужно покупать машину и страховой полис</li>
-                <li>Наша система позволяет построить трекер движения автомобиля
-                </li>
-                <li>Вы самостоятельно выставляете лимиты своим сотрудникам
-                </li>
-                <li>Без суточного лимита по пробегу
-                </li>
-                <li>Возможность передачи права управления автомобилем
-                </li>
-                <li>Не нужно думать о ТО и замене резины
-                </li>
-            </ul>
-        </div>
-    </section> -->
+
     <section class="reviews">
         <h3>ОТЗЫВЫ КЛИЕНТОВ</h3>
         <div class="reviews-content">
             <?php
-            // Include config file
+            // аналогично обращаемся к таблице отзывов у которых ид статьи равно 0( те id_state= 0 это отзывы на главной странице)
             require_once "config2.php";
 
-            // Attempt select query execution
+            // абсолютно аналогично но без переменных
             $sql = "SELECT * FROM reviews WHERE `id_state` = '0' ";
             if ($result = mysqli_query($link, $sql)) {
                 if (mysqli_num_rows($result) > 0) {
@@ -194,38 +177,29 @@ $money=$_SESSION['user']['money'];
                 } else {
                     echo "<p class='lead'><em>No records were found.</em></p>";
                 }
-            } else {
-                echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
             }
 
             // Close connection
             mysqli_close($link);
             ?>
-            <!-- <div class="reviews-card">
-        <h3 class="rev-login">test</h3>
-        <p class="rev-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquam autem
-            blanditiis deleniti dicta dolores dolorum illum, inventore maiores modi natus neque odit quae
-            reprehenderit temporibus totam ullam velit voluptatibus!Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquam autem
-            blanditiis deleniti dicta dolores dolorum illum, inventore maiores modi natus neque odit quae
-            reprehenderit temporibus totam ullam velit voluptatibus!Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquam autem
-            blanditiis deleniti dicta dolores dolorum illum, inventore maiores modi natus neque odit quae
-            reprehenderit temporibus totam ullam velit voluptatibus!Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquam autem
-            blanditiis deleniti dicta dolores dolorum illum, inventore maiores modi natus neque odit quae
-            reprehenderit temporibus totam ullam velit voluptatibus!Lorem ipsum dolor sit amet, consectetur adipisicing elit. A aliquam autem
-            blanditiis deleniti dicta dolores dolorum illum, inventore maiores modi natus neque odit quae
-            reprehenderit temporibus totam ullam velit voluptatibus!/p>
-    </div>-->
+
             <?php
-            error_reporting(0);
-            session_start();
+
+            // здесь если пользователь авторизован он может оставить отзыв о сервисе
             $today=date("Y-m-d H:i:s");
+            // берем дату сегодня и заносим в перемеенуую
             $hidden= 'hidden';
+            //хиден для передачи данных не отображаемых пользователю
+            //если пользователь авторизирован то мы выводим
             if ($_SESSION['user']['login'] != "") {
+                // ВАЖНО ЗАПИСЬТ В КОМЕНТЫ ПРОИСХОДИТ В ФАЙЛЕ VENDOR/REV
                 echo "<h3 class='rev-bac'>Оставить отзыв</h3>";
                 echo "<form action='vendor/rev.php' class='reviews-rap' method='post'>";
                 echo " <div class='form-group'>";
                 echo "  <label>Отзыв</label>";
+                // в срытых передадим для заноса в бд дату
                 echo "  <input $hidden name='date' value='$today'>";
+                // и то что этот комент оставлен на главной тоесть state  значением 0
                 echo "  <input $hidden name='state' value='0'>";
                 echo " <textarea  name='review' class='form-control' value='' placeholder='Напишите отзыв'>";
                 echo " </textarea>";
@@ -235,69 +209,6 @@ $money=$_SESSION['user']['money'];
                 echo " </form>";
             }
             ?>
-            <!--
-                        <div class="reviews-wrap">
-                            <h4 class="reviews-tittle">ЕВГЕНИЙ</h4>
-                            <p class="reviews-comment">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores,
-                                consequuntur
-                                deleniti distinctio dolores ducimus, id incidunt magni nostrum odio saepe soluta temporibus, ut
-                                voluptates!
-                                Amet earum nisi possimus quia voluptates!
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, consequuntur deleniti
-                                distinctio dolores ducimus, id incidunt magni nostrum odio saepe soluta temporibus, ut voluptates!
-                                Amet earum nisi possimus quia voluptates!
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, consequuntur deleniti
-                                distinctio dolores ducimus, id incidunt magni nostrum odio saepe soluta temporibus, ut voluptates!
-                                Amet earum nisi possimus quia voluptates!
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, consequuntur deleniti
-                                distinctio dolores ducimus, id incidunt magni nostrum odio saepe soluta temporibus, ut voluptates!
-                                Amet earum nisi possimus quia voluptates!
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, consequuntur deleniti
-                                distinctio dolores ducimus, id incidunt magni nostrum odio saepe soluta temporibus, ut voluptates!
-                                Amet earum nisi possimus quia voluptates!</p>
-                        </div>
-
-                        <div class="reviews-wrap">
-                            <h4 class="reviews-tittle">ЕВГЕНИЙ</h4>
-                            <p class="reviews-comment">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores,
-                                consequuntur
-                                deleniti distinctio dolores ducimus, id incidunt magni nostrum odio saepe soluta temporibus, ut
-                                voluptates!
-                                Amet earum nisi possimus quia voluptates!
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, consequuntur deleniti
-                                distinctio dolores ducimus, id incidunt magni nostrum odio saepe soluta temporibus, ut voluptates!
-                                Amet earum nisi possimus quia voluptates!
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, consequuntur deleniti
-                                distinctio dolores ducimus, id incidunt magni nostrum odio saepe soluta temporibus, ut voluptates!
-                                Amet earum nisi possimus quia voluptates!
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, consequuntur deleniti
-                                distinctio dolores ducimus, id incidunt magni nostrum odio saepe soluta temporibus, ut voluptates!
-                                Amet earum nisi possimus quia voluptates!
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, consequuntur deleniti
-                                distinctio dolores ducimus, id incidunt magni nostrum odio saepe soluta temporibus, ut voluptates!
-                                Amet earum nisi possimus quia voluptates!</p>
-                        </div>
-                        <div class="reviews-wrap">
-                            <h4 class="reviews-tittle">ЕВГЕНИЙ</h4>
-                            <p class="reviews-comment">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores,
-                                consequuntur
-                                deleniti distinctio dolores ducimus, id incidunt magni nostrum odio saepe soluta temporibus, ut
-                                voluptates!
-                                Amet earum nisi possimus quia voluptates!
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, consequuntur deleniti
-                                distinctio dolores ducimus, id incidunt magni nostrum odio saepe soluta temporibus, ut voluptates!
-                                Amet earum nisi possimus quia voluptates!
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, consequuntur deleniti
-                                distinctio dolores ducimus, id incidunt magni nostrum odio saepe soluta temporibus, ut voluptates!
-                                Amet earum nisi possimus quia voluptates!
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, consequuntur deleniti
-                                distinctio dolores ducimus, id incidunt magni nostrum odio saepe soluta temporibus, ut voluptates!
-                                Amet earum nisi possimus quia voluptates!
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores, consequuntur deleniti
-                                distinctio dolores ducimus, id incidunt magni nostrum odio saepe soluta temporibus, ut voluptates!
-                                Amet earum nisi possimus quia voluptates!</p>
-                        </div>
-                        -->
         </div>
     </section>
 </main>

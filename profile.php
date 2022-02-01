@@ -1,8 +1,10 @@
 <?php
 session_start();
+//если пользователь не зашел в свой аккаунт то он не может перейти в профиль
 if (!$_SESSION['user']) {
     header('Location: /');
 }
+//деньги пользователя
 $money=$_SESSION['user']['money'];
 ?>
 
@@ -42,6 +44,7 @@ $money=$_SESSION['user']['money'];
                     echo " <div class='y-money'>";
                     echo " <p> $money</p>";
                     echo " </div>";
+                    //вывод денег пользователя
                 }
                 ?>
                 <div class="header-oder-links">
@@ -78,6 +81,7 @@ $money=$_SESSION['user']['money'];
     <h1 class="r-title">Профиль</h1>
     <form class="you-form">
         <div class="you-photo">
+            <!--передаем значения равные значениям перемменных пхп -->
             <img src="<?= $_SESSION['user']['avatar'] ?>" width="200" alt="">
         </div>
         <div class="y-information">
@@ -88,6 +92,7 @@ $money=$_SESSION['user']['money'];
             <a href="vendor/logout.php" class="logout">Выход</a>
             <a href="ChangeInfo.php" class="logout">Сменить данные</a>
             <?php
+            // если пользователь с логином админ то он может зайти в админку для него есть ссылка
             if ($_SESSION['user']['login'] =='admin') {
                 echo '<a class="logout" href="/CRUD/uNews/adminN.php">admin</a>';
             }
@@ -103,24 +108,30 @@ $money=$_SESSION['user']['money'];
             <h3>Ваши покупки:</h3>
             <ul class="u-tours">
                 <?php
+                // подключение к бд
                 $connect = mysqli_connect('localhost', 'root', 'root', 'test');
-                //SELECT t1.id_client, t2.tour_name, t2.tour_date FROM `client-tour` AS t1, tours as t2 WHERE t1.id_client = 11 and t1.id_tour = t2.id_tour
-                //'" . $_SESSION['user']['login'] . "'
+                // запрос к бд для вывода данных о покупках пользователя из таюлицы клиент-статьи
                 $sql ="SELECT t1.link,t1.date_finish, t2.tittle, t2.id_state,t3.id FROM `client-state` AS t1, `state` as t2,`users` as t3 WHERE t1.id_client = '" . $_SESSION['user']['id'] . "' and t1.id_state = t2.id_state and t3.id =t1.id_client" ;
+               //сегодня
                 $today=date("Y-m-d H:i:s");
+                //если произошел коннект
                 if ($result = $connect->query($sql)) {
+                    //пока можно разбивать полученные данные из таблицы делаем это
                     while ($row = mysqli_fetch_array($result)) {
                         $link = $row['link'];
                         $tittle = $row['tittle'];
                         $date_finish=$row['date_finish'];
+                        //выводим нужные данные с значениями
                         echo '<li class="item"> статья: ' .   $tittle . ' <br>Активная до: ' .  $date_finish. ' </li>';
                         if($date_finish>$today){
+                            // если дата конца ссылки больше даты сейчас то разрешаем скачать те выыводим ссылку
                             echo '<a href="' . $link . '">Скачать</a>';
                         }
 
 
                     }
                 }
+                // закрываем и освобождаем память
                 $result->close();
                 unset($obj);
                 unset($sql);

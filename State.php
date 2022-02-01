@@ -1,6 +1,7 @@
 <?php
-
+//сессия
 session_start();
+//деньги
 $money=$_SESSION['user']['money'];
 ?>
 
@@ -8,7 +9,7 @@ $money=$_SESSION['user']['money'];
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Avto</title>
+    <title>Магазин статей</title>
     <link rel="stylesheet" href="assets/css/main.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
@@ -47,6 +48,7 @@ $money=$_SESSION['user']['money'];
                     echo " <div class='y-money'>";
                     echo " <p> $money</p>";
                     echo " </div>";
+                    //деньги пользователя
                 }
                 ?>
                 <div class="header-oder-links">
@@ -87,10 +89,9 @@ $money=$_SESSION['user']['money'];
 
                 <?php
 
-                // Include config file
+                // аналогично выводу в галлерею/слайдер на главной только здесь вывод происходит карточек которые выстраиваются по технологии grid
                 require_once "config2.php";
                 $connect = mysqli_connect('localhost', 'root', 'root', 'test');
-                // Attempt select query execution
                 $sql = "SELECT * FROM `state`";
                 if ($result = mysqli_query($link, $sql)) {
                     if (mysqli_num_rows($result) > 0) {
@@ -106,14 +107,17 @@ $money=$_SESSION['user']['money'];
                             $content = $row['content'];
                             $price = (int)$row['price'];
 
-
-                            //var_dump($free_tour);
-
                             $disabled = 'disabled';
                             $user = $_SESSION['user']['id'];
                             $user_name = $_SESSION['user']['login'];
-                            if ($_SESSION['user']['id'] != NULL) {
 
+                            // ВАЖНО
+                            // здесь происходит вывод при разных условиях
+                            // (else) если пользователь не авторизирован то мы не даем купить ему что либо прото делая кнопку дизейблед
+                            // (if) тут идут два условия есть ли скидка или нет
+
+                            if ($_SESSION['user']['id'] != NULL) {
+                                // нету ссылки выводим прайс из таблицы статей
                                 if ($id_sale < 1) {
                                     echo "<form action='/vendor/TakeState.php'  method='GET' class='state-wrap'>";
                                     echo " <div class='state-img'>";
@@ -131,20 +135,22 @@ $money=$_SESSION['user']['money'];
                                     echo "</form>";
                                 }
                                 else{
+                                    // дальше если все же скидка есть то мы проверяем активна ли она сейчас ( по времени/дате )
                                     $today=date("Y-m-d H:i:s");
 
-                                   //" SELECT * FROM `sale` WHERE `date_start`<=28012022<=`date_finish`"
-
+// вообщем мы выводим из таблицы только скидки которые подходят по дате ну и статье
                                     $result2 = mysqli_query($connect, "SELECT `discount`,`id_sale` FROM `sale` WHERE '$today'<=`date_finish` AND '$today' >=`date_start` AND `id_sale` ='$id_sale'");
                                     while ($row = mysqli_fetch_array($result2)) {
                                         $discount = $row['discount'];
                                         $discount = (int)$discount;
 
                                     }
+                                    // здесь получаем итоговую цену вычитая из цены цену скидки
                                     $res_price= $price - $discount;
                                     if($res_price<0){
                                         $res_price='бесплатно';
                                     }
+                                    // ну и выводим
                                     echo "<form action='/vendor/TakeState.php'  method='GET' class='state-wrap'>";
                                     echo " <div class='state-img'>";
                                     echo " <img src='$image'>";
@@ -165,7 +171,7 @@ $money=$_SESSION['user']['money'];
 
                                 }
                             } else {
-
+// ну а тут собственно для не авторизированных пользователей
                                 echo "<form action='/vendor/TakeState.php'  method='GET' class='state-wrap'>";
                                 echo " <div class='state-img'>";
                                 echo " <img src='$image'>";
@@ -181,12 +187,13 @@ $money=$_SESSION['user']['money'];
 
                             }
                         }
-                        // Free result set
+                        // дефолтная очистка
                         mysqli_free_result($result);
                     } else {
                         echo "<p class='lead'><em>No records were found.</em></p>";
                     }
                 } else {
+                    // ну если ссылка не ворк ошибка
                     echo "ERROR: Could not able to execute $sql. " . mysqli_error($link);
                 }
 
@@ -195,17 +202,7 @@ $money=$_SESSION['user']['money'];
 
                 ?>
 
-                <!--
-                <div class='state-wrap'>
-                    <div class='state-img'>
-                        <img src='uploads/1643225501cool-man.png'>
-                    </div>
-                    <div class='state-card-tittle'>
-                        <h3>Geniu</h3>
-                        <p>lorem</p>
-                    </div>
-                </div>
-               -->
+
 
             </div>
         </div>

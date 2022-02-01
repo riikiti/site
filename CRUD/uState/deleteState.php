@@ -8,6 +8,6 @@ error_reporting(E_ALL);
 $connect = mysqli_connect('localhost', 'root', 'root', 'test');
 $id = $_GET["id"];
 mysqli_query($connect, "DELETE FROM `state` WHERE `id_state`= '$id'");
-header("location:/CRUD/adminState.php");
+header("location:/CRUD/uState/adminState.php");
 
 

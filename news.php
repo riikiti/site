@@ -8,7 +8,7 @@ $money=$_SESSION['user']['money'];
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Мед клиника</title>
+    <title>Новости</title>
     <link rel="stylesheet" href="assets/css/main.css">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">

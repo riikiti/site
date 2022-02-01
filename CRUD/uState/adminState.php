@@ -104,10 +104,9 @@ if ($_SESSION['user']['login'] != "admin") {
                         <a href="createState.php" class="btn btn-success pull-right">Добавить новую Запись</a>
                     </div>
                     <?php
-                    // Include config file
+                    // аналогично клиентам
                     require_once "../config.php";
 
-                    // Attempt select query execution
                     $sql = "SELECT * FROM `state`";
                     if ($result = mysqli_query($link, $sql)) {
                         if (mysqli_num_rows($result) > 0) {
